@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bet1418 - Jogo do Tigrinho</title>
+<style>
+    body {
+        background-color: #0a0a0a;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #1a472a;
+        padding: 15px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    #login, #game {
+        margin-top: 40px;
+    }
+    input, button {
+        padding: 10px;
+        font-size: 16px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+    }
+    input {
+        width: 200px;
+    }
+    button {
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #218838;
+    }
+    #slots {
+        font-size: 50px;
+        margin: 20px;
+    }
+    #saldo {
+        font-size: 20px;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+
+<header>🐯 Bet1418 🐇</header>
+
+<div id="login">
+    <h2>Login</h2>
+    <input type="text" id="usuario" placeholder="Usuário"><br>
+    <input type="password" id="senha" placeholder="Senha"><br>
+    <button onclick="fazerLogin()">Entrar</button>
+</div>
+
+<div id="game" style="display:none;">
+    <h2>Jogo do Tigrinho</h2>
+    <div id="saldo">💰 Saldo: R$ <span id="valorSaldo">100</span></div>
+    <input type="number" id="valorAposta" placeholder="Valor da aposta" min="1">
+    <button onclick="jogar()">Jogar</button>
+    <div id="slots">🐯 🐇 🐭</div>
+    <div id="mensagem"></div>
+</div>
+
+<script>
+    let saldo = 100;
+    const icones = ["🐯", "🐇", "🐭", "🐂", "🐍"];
+
+    function fazerLogin() {
+        let usuario = document.getElementById("usuario").value;
+        let senha = document.getElementById("senha").value;
+        if (usuario && senha) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("game").style.display = "block";
+        } else {
+            alert("Preencha todos os campos!");
+        }
+    }
+
+    function jogar() {
+        let aposta = parseInt(document.getElementById("valorAposta").value);
+        if (!aposta || aposta <= 0) {
+            alert("Digite um valor de aposta válido!");
+            return;
+        }
+        if (aposta > saldo) {
+            alert("Saldo insuficiente!");
+            return;
+        }
+
+        let slot1 = icones[Math.floor(Math.random() * icones.length)];
+        let slot2 = icones[Math.floor(Math.random() * icones.length)];
+        let slot3 = icones[Math.floor(Math.random() * icones.length)];
+
+        document.getElementById("slots").innerText = `${slot1} ${slot2} ${slot3}`;
+
+        if (slot1 === slot2 && slot2 === slot3) {
+            let ganho = aposta * 10;
+            saldo += ganho;
+            document.getElementById("mensagem").innerText = `🎉 Você ganhou R$${ganho}!`;
+        } else {
+            saldo -= aposta;
+            document.getElementById("mensagem").innerText = "❌ Você perdeu!";
+        }
+
+        document.getElementById("valorSaldo").innerText = saldo;
+
+        if (saldo <= 0) {
+            document.getElementById("mensagem").innerText = "💀 Você ficou sem saldo!";
+        }
+    }
+</script>
+
+</body>
+</html>
